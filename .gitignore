@@ -1,0 +1,29 @@
+# .NET build artifacts
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+
+# Node / Playwright
+node_modules/
+e2e/playwright-report/
+e2e/test-results/
+frontend/node_modules/
+
+# Coverage
+coverage/
+*.lcov
+
+# Environment
+.env
+appsettings.*.json
+!appsettings.Integration.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Repo-local Domain path (não commitar — tem caminho pessoal)
+backend/MinhasFinancas.Repo.props

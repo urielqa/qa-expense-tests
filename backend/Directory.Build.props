@@ -1,0 +1,3 @@
+<Project>
+  <Import Project="$(MSBuildThisFileDirectory)MinhasFinancas.Repo.props" Condition="Exists('$(MSBuildThisFileDirectory)MinhasFinancas.Repo.props')" />
+</Project>

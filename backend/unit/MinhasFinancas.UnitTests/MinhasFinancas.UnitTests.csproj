@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>MinhasFinancas.UnitTests</RootNamespace>
+    <!-- Caminho padrão: pasta do exame ao lado de qa-expense-tests (veja README). Sobrescreva com /p:MinhasFinancasDomainCsproj=... -->
+    <!-- De MinhasFinancas.UnitTests: 4× .. = pasta pai de qa-expense-tests (exame como "irmão" do repo de testes) -->
+    <MinhasFinancasDomainCsproj Condition="'$(MinhasFinancasDomainCsproj)' == ''">$(MSBuildThisFileDirectory)..\..\..\..\ExameDesenvolvedorDeTestes\ExameDesenvolvedorDeTestes\api\MinhasFinancas.Domain\MinhasFinancas.Domain.csproj</MinhasFinancasDomainCsproj>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(MinhasFinancasDomainCsproj)" Condition="Exists('$(MinhasFinancasDomainCsproj)')" />
+  </ItemGroup>
+
+  <Target Name="FailIfDomainMissing" BeforeTargets="Build;ResolveProjectReferences" Condition="!Exists('$(MinhasFinancasDomainCsproj)')">
+    <Error Text="MinhasFinancas.Domain não encontrado em '$(MinhasFinancasDomainCsproj)'. Coloque o repositório do exame ao lado de qa-expense-tests, copie backend/MinhasFinancas.Repo.props.example para MinhasFinancas.Repo.props e ajuste o caminho, ou passe /p:MinhasFinancasDomainCsproj=&lt;caminho completo do .csproj&gt;." />
+  </Target>
+
+</Project>

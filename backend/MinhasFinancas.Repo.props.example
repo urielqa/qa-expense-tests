@@ -1,0 +1,6 @@
+<Project>
+  <!-- Copie para MinhasFinancas.Repo.props (não commitar caminhos pessoais) ou defina MinhasFinancasDomainCsproj na linha de comando. -->
+  <PropertyGroup>
+    <MinhasFinancasDomainCsproj>C:\CAMINHO\PARA\api\MinhasFinancas.Domain\MinhasFinancas.Domain.csproj</MinhasFinancasDomainCsproj>
+  </PropertyGroup>
+</Project>

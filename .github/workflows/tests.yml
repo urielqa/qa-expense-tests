@@ -1,0 +1,83 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  unit:
+    name: Unit Tests (.NET)
+    runs-on: ubuntu-latest
+    env:
+      DOMAIN_CSPROJ_PATH: ""  # set via repo secret/var when Domain is available
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Run unit tests
+        continue-on-error: true
+        run: |
+          cd backend/unit/MinhasFinancas.UnitTests
+          dotnet test /p:MinhasFinancasDomainCsproj="${{ env.DOMAIN_CSPROJ_PATH }}"
+        # Falha esperada no CI: MinhasFinancas.Domain é externo ao repo (código da app
+        # não pode ser commitado). Localmente funciona com:
+        # dotnet test /p:MinhasFinancasDomainCsproj="C:\SEU_CAMINHO\MinhasFinancas.Domain.csproj"
+
+  integration:
+    name: Integration Tests (.NET)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    env:
+      EXPENSE_API_BASE_URL: http://localhost:5000
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.x'
+
+      - name: Run integration tests
+        run: |
+          cd IntegrationTests
+          dotnet test
+        # Falha esperada no CI: a API não está no ar.
+        # continue-on-error: true documenta a intenção sem bloquear o workflow.
+
+  e2e:
+    name: E2E Tests (Playwright)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          cd e2e
+          npm ci
+
+      - name: Install Playwright browsers
+        run: |
+          cd e2e
+          npx playwright install chromium --with-deps
+
+      - name: Run E2E tests
+        env:
+          PLAYWRIGHT_BASE_URL: http://localhost:5173
+        run: |
+          cd e2e
+          npm test
+        # Falha esperada no CI: front não está no ar.
+        # continue-on-error: true documenta a intenção sem bloquear o workflow.
