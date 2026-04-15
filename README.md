@@ -1,10 +1,16 @@
 # Suíte de testes — controle de gastos
 
-Repo **só com testes** para a avaliação. A aplicação (API/React) vem no pacote que a empresa passa — **você** sobe API e front no projeto deles; aqui dentro não tem código da app.
+# Objetivo do projeto
 
-No começo usei **Postman** à mão para bater nos endpoints e ver resposta/status antes de fechar a automação no xUnit.
+Este repositório contém a implementação de uma estratégia de testes para uma aplicação de controle de gastos, com foco em validar regras críticas de negócio em múltiplas camadas (unit, integração e E2E).
 
----
+A abordagem foi pensada para garantir:
+
+- Confiabilidade dos dados financeiros
+- Cobertura dos fluxos críticos
+- Facilidade de manutenção e evolução
+
+> O objetivo não foi atingir 100% de cobertura, mas sim validar cenários que impactam diretamente a integridade do sistema.
 
 ## Pirâmide de testes (visão rápida)
 
